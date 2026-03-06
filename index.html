@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -9,141 +10,196 @@
 <style>
 
 body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background: radial-gradient(circle at top, #3b2a00, #000000);
-    color:white;
-    overflow-x:hidden;
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background: radial-gradient(circle at top, #3b2a00, #000000);
+color:white;
+overflow-x:hidden;
 }
 
-/* ดาววิบๆ */
+/* ดาวพื้นหลัง */
+
 body::before{
-    content:"";
-    position:fixed;
-    width:100%;
-    height:100%;
-    background-image:
-    radial-gradient(white 1px, transparent 1px),
-    radial-gradient(#ffd900 1px, transparent 1px);
-    background-size:60px 60px,120px 120px;
-    opacity:0.15;
-    animation:stars 60s linear infinite;
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background-image:
+radial-gradient(white 1px, transparent 1px),
+radial-gradient(#ffd900 1px, transparent 1px);
+background-size:60px 60px,120px 120px;
+opacity:0.15;
+animation:stars 60s linear infinite;
 }
 
 @keyframes stars{
-    from{transform:translateY(0);}
-    to{transform:translateY(-1000px);}
+from{transform:translateY(0);}
+to{transform:translateY(-1000px);}
 }
 
 /* NAVBAR */
 
 .navbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px 70px;
-    background:rgba(0,0,0,0.7);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid rgba(255,217,0,0.3);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 80px;
+
+background:rgba(0,0,0,0.75);
+backdrop-filter:blur(10px);
+
+border-bottom:1px solid rgba(255,217,0,0.3);
+
+box-shadow:
+0 5px 25px rgba(0,0,0,0.6),
+0 0 15px rgba(255,217,0,0.08);
 }
+
+/* LEFT MENU */
 
 .nav-left{
-    display:flex;
-    align-items:center;
-    gap:40px;
+display:flex;
+align-items:center;
+gap:45px;
 }
+
+/* LOGO */
 
 .nav-left img{
-    height:45px;
+height:45px;
+
+filter:drop-shadow(0 0 6px rgba(255,217,0,0.6));
+
+transition:0.3s;
 }
 
-/* menu */
+.nav-left img:hover{
+transform:scale(1.05);
+}
+
+/* MENU */
 
 .nav-left a{
-    color:white;
-    text-decoration:none;
-    font-size:18px;
-    position:relative;
-    transition:0.3s;
+color:#dddddd;
+text-decoration:none;
+font-size:19px;
+font-weight:500;
+
+position:relative;
+
+transition:0.25s;
 }
 
 .nav-left a:hover{
-    color:#ffd900;
+color:#ffd900;
+transform:translateY(-1px);
 }
 
-/* เส้นเรืองแสง */
+/* เส้นทอง */
 
 .nav-left a::after{
-    content:"";
-    position:absolute;
-    width:0%;
-    height:2px;
-    background:#ffd900;
-    left:0;
-    bottom:-5px;
-    transition:0.3s;
+content:"";
+position:absolute;
+
+width:0%;
+height:2px;
+
+background:#ffd900;
+
+left:0;
+bottom:-6px;
+
+transition:0.3s;
+
+box-shadow:0 0 6px #ffd900;
 }
 
 .nav-left a:hover::after{
-    width:100%;
+width:100%;
 }
 
 /* RIGHT MENU */
 
 .nav-right{
-    display:flex;
-    gap:25px;
+display:flex;
+align-items:center;
+gap:30px;
 }
 
 .nav-right a{
-    text-decoration:none;
-    color:white;
-    font-size:16px;
+text-decoration:none;
+color:#dddddd;
+font-size:16px;
+transition:0.25s;
+}
+
+.nav-right a:hover{
+color:#ffd900;
 }
 
 /* SIGN UP BUTTON */
 
 .signup{
-    background:#ffd900;
-    color:black;
-    padding:7px 18px;
-    border-radius:8px;
-    font-weight:bold;
-    transition:0.3s;
+background:linear-gradient(145deg,#ffd900,#ffb700);
+
+color:black;
+
+padding:8px 20px;
+
+border-radius:10px;
+
+font-weight:bold;
+
+box-shadow:0 0 12px rgba(255,217,0,0.5);
+
+transition:0.25s;
 }
 
 .signup:hover{
-    transform:scale(1.05);
+
+transform:translateY(-2px) scale(1.05);
+
+box-shadow:
+0 0 20px rgba(255,217,0,0.9);
+
 }
 
 /* BANNER */
 
 .hero{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:70vh;
+display:flex;
+justify-content:center;
+align-items:center;
+height:70vh;
 }
 
 .hero img{
-    width:70%;
-    max-width:1000px;
-    border-radius:12px;
-    box-shadow:
-    0 0 40px rgba(255,217,0,0.25);
+
+width:70%;
+max-width:1000px;
+
+border-radius:14px;
+
+box-shadow:
+0 0 40px rgba(255,217,0,0.25),
+0 0 80px rgba(255,217,0,0.1);
+
 }
 
-/* mascot corner */
+/* mascot */
 
 .mascot{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    width:90px;
-    opacity:0.9;
+position:fixed;
+bottom:20px;
+right:20px;
+width:90px;
+opacity:0.9;
+
+filter:drop-shadow(0 0 8px rgba(255,217,0,0.7));
 }
 
 </style>
+
 </head>
 
 <body>
@@ -151,25 +207,26 @@ body::before{
 <div class="navbar">
 
 <div class="nav-left">
+
 <img src="Logo.png">
 
-<a href="#">Main</a>
-<a href="#">Shop</a>
-<a href="#">Topup</a>
+<a href="#">Main</a> <a href="#">Shop</a> <a href="#">Topup</a>
+
 </div>
 
 <div class="nav-right">
+
 <a href="#">Sign In</a>
+
 <a class="signup" href="#">Sign Up</a>
-</div>
 
 </div>
 
+</div>
 
 <div class="hero">
 <img src="Banner.jpg">
 </div>
-
 
 <img class="mascot" src="Logo.png">
 
