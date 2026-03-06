@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -21,6 +22,8 @@ overflow-x:hidden;
 body::before{
 content:"";
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
 background-image:
@@ -29,6 +32,9 @@ radial-gradient(#ffd900 1px, transparent 1px);
 background-size:60px 60px,120px 120px;
 opacity:0.15;
 animation:stars 60s linear infinite;
+
+pointer-events:none;
+z-index:0;
 }
 
 @keyframes stars{
@@ -39,28 +45,36 @@ to{transform:translateY(-1000px);}
 /* NAVBAR */
 
 .navbar{
+position:relative;
+z-index:5;
+
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:18px 100px;
-background:rgba(0,0,0,0.8);
+padding:18px 80px;
+
+background:rgba(0,0,0,0.85);
+backdrop-filter:blur(10px);
+
 border-bottom:1px solid rgba(255,217,0,0.3);
 }
 
 .nav-left{
 display:flex;
 align-items:center;
-gap:35px;
+gap:40px;
 }
 
 .nav-left img{
 height:40px;
+cursor:pointer;
 }
 
 .nav-left a{
 color:#ddd;
 text-decoration:none;
-font-size:17px;
+font-size:18px;
+cursor:pointer;
 }
 
 .nav-left a:hover{
@@ -76,6 +90,7 @@ gap:20px;
 .nav-right a{
 color:#ddd;
 text-decoration:none;
+cursor:pointer;
 }
 
 .signup{
@@ -84,41 +99,26 @@ color:black;
 padding:7px 18px;
 border-radius:8px;
 font-weight:bold;
+cursor:pointer;
 }
 
-/* Banner */
+/* BANNER */
 
 .hero{
+position:relative;
+z-index:2;
+
 display:flex;
 justify-content:center;
-padding:60px 0;
+align-items:center;
+margin-top:40px;
 }
 
 .hero img{
-width:85%;
-max-width:1100px;
-border-radius:12px;
+width:70%;
+max-width:1000px;
+border-radius:14px;
 box-shadow:0 0 40px rgba(255,217,0,0.25);
-}
-
-/* USER PANEL */
-
-.user-panel{
-display:none;
-align-items:center;
-gap:15px;
-}
-
-.wallet{
-background:#111;
-padding:6px 14px;
-border-radius:8px;
-border:1px solid #ffd900;
-}
-
-.logout{
-cursor:pointer;
-color:#ff5555;
 }
 
 /* POPUP */
@@ -129,79 +129,74 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,0.7);
 display:none;
 justify-content:center;
 align-items:center;
+z-index:10;
 }
 
 .popup-box{
-
 background:#111;
-padding:40px;
+padding:35px;
+width:350px;
 border-radius:12px;
-width:320px;
+border:1px solid rgba(255,217,0,0.3);
 position:relative;
-
-box-shadow:0 0 20px rgba(255,217,0,0.3);
-
 }
 
-.popup-box h3{
+.popup-box h2{
 margin-top:0;
 }
 
 .popup-box input{
-
 width:100%;
 padding:10px;
 margin-top:10px;
 margin-bottom:15px;
-
 background:#000;
 border:1px solid #333;
-border-radius:6px;
 color:white;
-
+border-radius:6px;
 }
 
 .popup-box button{
-
 width:100%;
 padding:10px;
-
 background:#ffd900;
 border:none;
-
+border-radius:6px;
 font-weight:bold;
-border-radius:8px;
 cursor:pointer;
-
 }
 
-/* close button */
-
-.close-btn{
-
+.close{
 position:absolute;
-top:10px;
 right:15px;
-
+top:10px;
 cursor:pointer;
 font-size:20px;
-
 }
 
-/* mascot */
+/* PROFILE */
 
-.mascot{
-position:fixed;
-bottom:20px;
-right:20px;
-width:90px;
+.profile{
+display:none;
+gap:15px;
+align-items:center;
+}
+
+.wallet{
+color:#ffd900;
+font-weight:bold;
+}
+
+.logout{
+cursor:pointer;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -209,33 +204,21 @@ width:90px;
 <div class="navbar">
 
 <div class="nav-left">
-
 <img src="Logo.png">
 
-<a href="#">Main</a>
-<a href="#">Shop</a>
-<a href="#">Topup</a>
+<a>Main</a> <a>Shop</a> <a>Topup</a>
 
 </div>
 
-<div class="nav-right" id="guestMenu">
-
-<a href="#" onclick="openLogin()">Sign In</a>
-
-<a class="signup" href="#" onclick="openRegister()">Sign Up</a>
-
+<div class="nav-right" id="navGuest">
+<a onclick="openLogin()">Sign In</a>
+<a class="signup" onclick="openSignup()">Sign Up</a>
 </div>
 
-<div class="user-panel" id="userPanel">
-
+<div class="nav-right profile" id="navUser">
 <span id="username"></span>
-
-<div class="wallet">
-💰 <span id="wallet">0</span>
-</div>
-
-<span class="logout" onclick="logout()">Logout</span>
-
+<span class="wallet">💰 <span id="wallet">0</span></span>
+<a class="logout" onclick="logout()">Logout</a>
 </div>
 
 </div>
@@ -244,19 +227,18 @@ width:90px;
 <img src="Banner.jpg">
 </div>
 
-<img class="mascot" src="Logo.png">
-
 <!-- LOGIN -->
 
 <div class="popup" id="loginPopup">
 
 <div class="popup-box">
 
-<span class="close-btn" onclick="closePopup()">✕</span>
+<span class="close" onclick="closePopup()">✖</span>
 
-<h3>Login</h3>
+<h2>Sign In</h2>
 
 <input id="loginUser" placeholder="Username">
+
 <input id="loginPass" type="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
@@ -265,20 +247,21 @@ width:90px;
 
 </div>
 
-<!-- REGISTER -->
+<!-- SIGNUP -->
 
-<div class="popup" id="registerPopup">
+<div class="popup" id="signupPopup">
 
 <div class="popup-box">
 
-<span class="close-btn" onclick="closePopup()">✕</span>
+<span class="close" onclick="closePopup()">✖</span>
 
-<h3>Sign Up</h3>
+<h2>Sign Up</h2>
 
 <input id="regUser" placeholder="Username">
+
 <input id="regPass" type="password" placeholder="Password">
 
-<button onclick="register()">Register</button>
+<button onclick="register()">Create Account</button>
 
 </div>
 
@@ -286,66 +269,50 @@ width:90px;
 
 <script>
 
-/* popup */
-
 function openLogin(){
-
 document.getElementById("loginPopup").style.display="flex"
-
 }
 
-function openRegister(){
-
-document.getElementById("registerPopup").style.display="flex"
-
+function openSignup(){
+document.getElementById("signupPopup").style.display="flex"
 }
 
 function closePopup(){
-
 document.getElementById("loginPopup").style.display="none"
-document.getElementById("registerPopup").style.display="none"
-
+document.getElementById("signupPopup").style.display="none"
 }
-
-/* register */
 
 function register(){
 
 let user=document.getElementById("regUser").value
 let pass=document.getElementById("regPass").value
 
-if(user==""||pass==""){
-
+if(!user||!pass){
 alert("กรอกข้อมูลก่อน")
-
 return
-
 }
 
-localStorage.setItem(user,pass)
+localStorage.setItem("user_"+user,pass)
+localStorage.setItem("wallet_"+user,100)
 
-localStorage.setItem(user+"_wallet",100)
-
-alert("สมัครสมาชิกสำเร็จ")
+alert("สมัครสำเร็จ")
 
 closePopup()
 
 }
-
-/* login */
 
 function login(){
 
 let user=document.getElementById("loginUser").value
 let pass=document.getElementById("loginPass").value
 
-let saved=localStorage.getItem(user)
+let saved=localStorage.getItem("user_"+user)
 
 if(saved==pass){
 
-localStorage.setItem("loggedUser",user)
+localStorage.setItem("login",user)
 
-showUser()
+loadUser()
 
 closePopup()
 
@@ -357,38 +324,32 @@ alert("ข้อมูลไม่ถูกต้อง")
 
 }
 
-/* show user */
+function loadUser(){
 
-function showUser(){
+let user=localStorage.getItem("login")
 
-let user=localStorage.getItem("loggedUser")
+if(!user) return
 
-if(user){
-
-document.getElementById("guestMenu").style.display="none"
-document.getElementById("userPanel").style.display="flex"
+document.getElementById("navGuest").style.display="none"
+document.getElementById("navUser").style.display="flex"
 
 document.getElementById("username").innerText=user
 
-let money=localStorage.getItem(user+"_wallet")
+let money=localStorage.getItem("wallet_"+user)
 
 document.getElementById("wallet").innerText=money
 
 }
 
-}
-
-/* logout */
-
 function logout(){
 
-localStorage.removeItem("loggedUser")
+localStorage.removeItem("login")
 
 location.reload()
 
 }
 
-showUser()
+loadUser()
 
 </script>
 
