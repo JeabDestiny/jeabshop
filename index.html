@@ -17,8 +17,6 @@ color:white;
 overflow-x:hidden;
 }
 
-/* ดาวพื้นหลัง */
-
 body::before{
 content:"";
 position:fixed;
@@ -32,7 +30,6 @@ radial-gradient(#ffd900 1px, transparent 1px);
 background-size:60px 60px,120px 120px;
 opacity:0.15;
 animation:stars 60s linear infinite;
-
 pointer-events:none;
 z-index:0;
 }
@@ -47,15 +44,12 @@ to{transform:translateY(-1000px);}
 .navbar{
 position:relative;
 z-index:5;
-
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:18px 80px;
-
 background:rgba(0,0,0,0.85);
 backdrop-filter:blur(10px);
-
 border-bottom:1px solid rgba(255,217,0,0.3);
 }
 
@@ -102,12 +96,9 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* BANNER */
-
 .hero{
 position:relative;
 z-index:2;
-
 display:flex;
 justify-content:center;
 align-items:center;
@@ -205,9 +196,9 @@ cursor:pointer;
 
 <div class="nav-left">
 <img src="Logo.png">
-
-<a>Main</a> <a>Shop</a> <a>Topup</a>
-
+<a>Main</a>
+<a>Shop</a>
+<a>Topup</a>
 </div>
 
 <div class="nav-right" id="navGuest">
@@ -269,6 +260,15 @@ cursor:pointer;
 
 <script>
 
+/* สร้าง ADMIN อัตโนมัติ */
+
+if(!localStorage.getItem("user_admin")){
+localStorage.setItem("user_admin","696969")
+localStorage.setItem("wallet_admin",0)
+}
+
+/* POPUP */
+
 function openLogin(){
 document.getElementById("loginPopup").style.display="flex"
 }
@@ -282,6 +282,8 @@ document.getElementById("loginPopup").style.display="none"
 document.getElementById("signupPopup").style.display="none"
 }
 
+/* REGISTER */
+
 function register(){
 
 let user=document.getElementById("regUser").value
@@ -292,14 +294,24 @@ alert("กรอกข้อมูลก่อน")
 return
 }
 
+if(localStorage.getItem("user_"+user)){
+alert("User นี้มีอยู่แล้ว")
+return
+}
+
 localStorage.setItem("user_"+user,pass)
-localStorage.setItem("wallet_"+user,100)
+
+/* เงินเริ่มต้น = 0 */
+
+localStorage.setItem("wallet_"+user,0)
 
 alert("สมัครสำเร็จ")
 
 closePopup()
 
 }
+
+/* LOGIN */
 
 function login(){
 
@@ -324,6 +336,8 @@ alert("ข้อมูลไม่ถูกต้อง")
 
 }
 
+/* LOAD USER */
+
 function loadUser(){
 
 let user=localStorage.getItem("login")
@@ -340,6 +354,8 @@ let money=localStorage.getItem("wallet_"+user)
 document.getElementById("wallet").innerText=money
 
 }
+
+/* LOGOUT */
 
 function logout(){
 
