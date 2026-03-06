@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -17,7 +16,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* ดาวพื้นหลัง */
+/* stars */
 
 body::before{
 content:"";
@@ -44,162 +43,126 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 80px;
-
 background:rgba(0,0,0,0.75);
 backdrop-filter:blur(10px);
-
 border-bottom:1px solid rgba(255,217,0,0.3);
-
-box-shadow:
-0 5px 25px rgba(0,0,0,0.6),
-0 0 15px rgba(255,217,0,0.08);
 }
-
-/* LEFT MENU */
 
 .nav-left{
 display:flex;
 align-items:center;
-gap:45px;
+gap:40px;
 }
-
-/* LOGO */
 
 .nav-left img{
 height:45px;
-
-filter:drop-shadow(0 0 6px rgba(255,217,0,0.6));
-
-transition:0.3s;
 }
-
-.nav-left img:hover{
-transform:scale(1.05);
-}
-
-/* MENU */
 
 .nav-left a{
-color:#dddddd;
+color:#ddd;
 text-decoration:none;
-font-size:19px;
-font-weight:500;
-
-position:relative;
-
-transition:0.25s;
+font-size:18px;
+cursor:pointer;
 }
 
 .nav-left a:hover{
 color:#ffd900;
-transform:translateY(-1px);
 }
-
-/* เส้นทอง */
-
-.nav-left a::after{
-content:"";
-position:absolute;
-
-width:0%;
-height:2px;
-
-background:#ffd900;
-
-left:0;
-bottom:-6px;
-
-transition:0.3s;
-
-box-shadow:0 0 6px #ffd900;
-}
-
-.nav-left a:hover::after{
-width:100%;
-}
-
-/* RIGHT MENU */
 
 .nav-right{
 display:flex;
-align-items:center;
-gap:30px;
+gap:25px;
 }
-
-.nav-right a{
-text-decoration:none;
-color:#dddddd;
-font-size:16px;
-transition:0.25s;
-}
-
-.nav-right a:hover{
-color:#ffd900;
-}
-
-/* SIGN UP BUTTON */
 
 .signup{
-background:linear-gradient(145deg,#ffd900,#ffb700);
-
+background:#ffd900;
 color:black;
-
-padding:8px 20px;
-
-border-radius:10px;
-
+padding:6px 15px;
+border-radius:8px;
 font-weight:bold;
-
-box-shadow:0 0 12px rgba(255,217,0,0.5);
-
-transition:0.25s;
+cursor:pointer;
 }
-
-.signup:hover{
-
-transform:translateY(-2px) scale(1.05);
-
-box-shadow:
-0 0 20px rgba(255,217,0,0.9);
-
-}
-
-/* BANNER */
 
 .hero{
 display:flex;
 justify-content:center;
 align-items:center;
-height:70vh;
+height:60vh;
 }
 
 .hero img{
-
 width:70%;
-max-width:1000px;
-
 border-radius:14px;
-
-box-shadow:
-0 0 40px rgba(255,217,0,0.25),
-0 0 80px rgba(255,217,0,0.1);
-
 }
 
-/* mascot */
+/* shop */
 
-.mascot{
+.shop{
+padding:60px;
+display:none;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+}
+
+.item{
+background:#111;
+padding:20px;
+border-radius:10px;
+text-align:center;
+border:1px solid rgba(255,217,0,0.2);
+}
+
+.item button{
+margin-top:10px;
+background:#ffd900;
+border:none;
+padding:8px 15px;
+cursor:pointer;
+}
+
+/* popup */
+
+.popup{
 position:fixed;
-bottom:20px;
-right:20px;
-width:90px;
-opacity:0.9;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+}
 
-filter:drop-shadow(0 0 8px rgba(255,217,0,0.7));
+.popup-box{
+background:#111;
+padding:40px;
+border-radius:12px;
+width:300px;
+}
+
+.popup input{
+width:100%;
+padding:8px;
+margin:10px 0;
+}
+
+.popup button{
+width:100%;
+padding:10px;
+background:#ffd900;
+border:none;
+cursor:pointer;
+}
+
+/* admin */
+
+.admin{
+display:none;
+padding:50px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -210,25 +173,210 @@ filter:drop-shadow(0 0 8px rgba(255,217,0,0.7));
 
 <img src="Logo.png">
 
-<a href="#">Main</a> <a href="#">Shop</a> <a href="#">Topup</a>
+<a onclick="showHome()">Main</a>
+<a onclick="showShop()">Shop</a>
 
 </div>
 
 <div class="nav-right">
 
-<a href="#">Sign In</a>
+<span id="userLabel"></span>
 
-<a class="signup" href="#">Sign Up</a>
+<a onclick="openLogin()">Sign In</a>
+<a class="signup" onclick="openRegister()">Sign Up</a>
 
 </div>
 
 </div>
 
-<div class="hero">
+<div class="hero" id="home">
 <img src="Banner.jpg">
 </div>
 
-<img class="mascot" src="Logo.png">
+<div class="shop" id="shop"></div>
+
+<div class="admin" id="admin">
+
+<h2>Admin Panel</h2>
+
+<input id="itemName" placeholder="Item Name">
+<input id="itemPrice" placeholder="Price">
+
+<button onclick="addItem()">Add Item</button>
+
+</div>
+
+<!-- LOGIN -->
+
+<div class="popup" id="loginPopup">
+
+<div class="popup-box">
+
+<h3>Login</h3>
+
+<input id="loginUser" placeholder="Username">
+<input id="loginPass" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+</div>
+
+<!-- REGISTER -->
+
+<div class="popup" id="registerPopup">
+
+<div class="popup-box">
+
+<h3>Register</h3>
+
+<input id="regUser" placeholder="Username">
+<input id="regPass" type="password" placeholder="Password">
+
+<button onclick="register()">Register</button>
+
+</div>
+
+</div>
+
+<script>
+
+let users = JSON.parse(localStorage.getItem("users")) || []
+let products = JSON.parse(localStorage.getItem("products")) || [
+{name:"VIP Rank",price:50},
+{name:"Legend Rank",price:120}
+]
+
+let currentUser = localStorage.getItem("user")
+
+function save(){
+localStorage.setItem("users",JSON.stringify(users))
+localStorage.setItem("products",JSON.stringify(products))
+}
+
+function showHome(){
+document.getElementById("home").style.display="flex"
+document.getElementById("shop").style.display="none"
+}
+
+function showShop(){
+
+document.getElementById("home").style.display="none"
+document.getElementById("shop").style.display="grid"
+
+renderShop()
+}
+
+function renderShop(){
+
+let shop=document.getElementById("shop")
+shop.innerHTML=""
+
+products.forEach((p,i)=>{
+
+shop.innerHTML+=`
+
+<div class="item">
+
+<h3>${p.name}</h3>
+<p>${p.price} coins</p>
+
+<button onclick="buyItem(${i})">Buy</button>
+
+</div>
+
+`
+
+})
+
+}
+
+function buyItem(i){
+
+if(!currentUser){
+alert("Login first")
+return
+}
+
+alert("Purchased "+products[i].name)
+
+}
+
+function openLogin(){
+document.getElementById("loginPopup").style.display="flex"
+}
+
+function openRegister(){
+document.getElementById("registerPopup").style.display="flex"
+}
+
+function register(){
+
+let u=document.getElementById("regUser").value
+let p=document.getElementById("regPass").value
+
+users.push({u,p})
+
+save()
+
+alert("Account created")
+
+}
+
+function login(){
+
+let u=document.getElementById("loginUser").value
+let p=document.getElementById("loginPass").value
+
+let user=users.find(x=>x.u==u && x.p==p)
+
+if(user){
+
+currentUser=u
+localStorage.setItem("user",u)
+
+updateUser()
+
+}else{
+
+alert("Wrong login")
+
+}
+
+}
+
+function updateUser(){
+
+if(currentUser){
+
+document.getElementById("userLabel").innerHTML="Hello "+currentUser
+
+if(currentUser=="admin"){
+document.getElementById("admin").style.display="block"
+}
+
+}
+
+}
+
+function addItem(){
+
+let name=document.getElementById("itemName").value
+let price=document.getElementById("itemPrice").value
+
+products.push({name,price})
+
+save()
+
+renderShop()
+
+}
+
+updateUser()
+renderShop()
+
+</script>
 
 </body>
 </html>
