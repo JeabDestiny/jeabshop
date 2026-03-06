@@ -1,41 +1,113 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>Jeab Game Store</title>
 
 <style>
+
 body{
-background:#111;
-color:white;
+margin:0;
 font-family:Arial;
-text-align:center;
+color:white;
+
+/* พื้นหลังอวกาศ */
+background:
+linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
+url("banner.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
 }
 
-h1{
-color:gold;
+/* แถบเมนู */
+.navbar{
+display:flex;
+justify-content:center;
+gap:20px;
+padding:15px;
+background:rgba(0,0,0,0.8);
+border-bottom:3px solid gold;
 }
 
-button{
+/* กล่องเมนู */
+.menu-box{
+border:3px solid gold;
 padding:10px 20px;
+color:gold;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+/* hover */
+.menu-box:hover{
+background:gold;
+color:black;
+}
+
+/* โลโก้ */
+.menu-box img{
+height:35px;
+}
+
+/* กลางหน้า */
+.hero{
+text-align:center;
+margin-top:150px;
+}
+
+.hero h1{
+color:gold;
+font-size:40px;
+}
+
+.hero p{
 font-size:18px;
+}
+
+.button{
 background:gold;
 border:none;
+padding:12px 30px;
+font-size:16px;
+font-weight:bold;
 cursor:pointer;
 }
-</style>
 
+</style>
 </head>
+
 
 <body>
 
-<h1>🐥 Jeab Game Store</h1>
-<p>ร้านขายไอดีเกมและบริการเกม</p>
+<!-- เมนู -->
+<div class="navbar">
 
-<button onclick="alert('Coming Soon')">
-เข้าสู่ร้านค้า
-</button>
+<div class="menu-box">
+<img src="logo.jpg">
+</div>
+
+<div class="menu-box">Main</div>
+<div class="menu-box">Shop</div>
+<div class="menu-box">Topup</div>
+<div class="menu-box">Sign In</div>
+<div class="menu-box">Sign Up</div>
+
+</div>
+
+
+<!-- เนื้อหา -->
+<div class="hero">
+
+<h1>🐥 Jeab Game Store</h1>
+
+<p>Game Account & Game Services</p>
+
+<button class="button">Enter Store</button>
+
+</div>
 
 </body>
-
 </html>
