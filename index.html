@@ -16,7 +16,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* stars */
+/* ดาวพื้นหลัง */
 
 body::before{
 content:"";
@@ -42,27 +42,25 @@ to{transform:translateY(-1000px);}
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 80px;
-background:rgba(0,0,0,0.75);
-backdrop-filter:blur(10px);
+padding:18px 100px;
+background:rgba(0,0,0,0.8);
 border-bottom:1px solid rgba(255,217,0,0.3);
 }
 
 .nav-left{
 display:flex;
 align-items:center;
-gap:40px;
+gap:35px;
 }
 
 .nav-left img{
-height:45px;
+height:40px;
 }
 
 .nav-left a{
 color:#ddd;
 text-decoration:none;
-font-size:18px;
-cursor:pointer;
+font-size:17px;
 }
 
 .nav-left a:hover{
@@ -71,56 +69,59 @@ color:#ffd900;
 
 .nav-right{
 display:flex;
-gap:25px;
+align-items:center;
+gap:20px;
+}
+
+.nav-right a{
+color:#ddd;
+text-decoration:none;
 }
 
 .signup{
 background:#ffd900;
 color:black;
-padding:6px 15px;
+padding:7px 18px;
 border-radius:8px;
 font-weight:bold;
-cursor:pointer;
 }
+
+/* Banner */
 
 .hero{
 display:flex;
 justify-content:center;
-align-items:center;
-height:60vh;
+padding:60px 0;
 }
 
 .hero img{
-width:70%;
-border-radius:14px;
+width:85%;
+max-width:1100px;
+border-radius:12px;
+box-shadow:0 0 40px rgba(255,217,0,0.25);
 }
 
-/* shop */
+/* USER PANEL */
 
-.shop{
-padding:60px;
+.user-panel{
 display:none;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:30px;
+align-items:center;
+gap:15px;
 }
 
-.item{
+.wallet{
 background:#111;
-padding:20px;
-border-radius:10px;
-text-align:center;
-border:1px solid rgba(255,217,0,0.2);
+padding:6px 14px;
+border-radius:8px;
+border:1px solid #ffd900;
 }
 
-.item button{
-margin-top:10px;
-background:#ffd900;
-border:none;
-padding:8px 15px;
+.logout{
 cursor:pointer;
+color:#ff5555;
 }
 
-/* popup */
+/* POPUP */
 
 .popup{
 position:fixed;
@@ -135,31 +136,69 @@ align-items:center;
 }
 
 .popup-box{
+
 background:#111;
 padding:40px;
 border-radius:12px;
-width:300px;
+width:320px;
+position:relative;
+
+box-shadow:0 0 20px rgba(255,217,0,0.3);
+
 }
 
-.popup input{
-width:100%;
-padding:8px;
-margin:10px 0;
+.popup-box h3{
+margin-top:0;
 }
 
-.popup button{
+.popup-box input{
+
 width:100%;
 padding:10px;
-background:#ffd900;
-border:none;
-cursor:pointer;
+margin-top:10px;
+margin-bottom:15px;
+
+background:#000;
+border:1px solid #333;
+border-radius:6px;
+color:white;
+
 }
 
-/* admin */
+.popup-box button{
 
-.admin{
-display:none;
-padding:50px;
+width:100%;
+padding:10px;
+
+background:#ffd900;
+border:none;
+
+font-weight:bold;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+/* close button */
+
+.close-btn{
+
+position:absolute;
+top:10px;
+right:15px;
+
+cursor:pointer;
+font-size:20px;
+
+}
+
+/* mascot */
+
+.mascot{
+position:fixed;
+bottom:20px;
+right:20px;
+width:90px;
 }
 
 </style>
@@ -173,44 +212,47 @@ padding:50px;
 
 <img src="Logo.png">
 
-<a onclick="showHome()">Main</a>
-<a onclick="showShop()">Shop</a>
+<a href="#">Main</a>
+<a href="#">Shop</a>
+<a href="#">Topup</a>
 
 </div>
 
-<div class="nav-right">
+<div class="nav-right" id="guestMenu">
 
-<span id="userLabel"></span>
+<a href="#" onclick="openLogin()">Sign In</a>
 
-<a onclick="openLogin()">Sign In</a>
-<a class="signup" onclick="openRegister()">Sign Up</a>
+<a class="signup" href="#" onclick="openRegister()">Sign Up</a>
+
+</div>
+
+<div class="user-panel" id="userPanel">
+
+<span id="username"></span>
+
+<div class="wallet">
+💰 <span id="wallet">0</span>
+</div>
+
+<span class="logout" onclick="logout()">Logout</span>
 
 </div>
 
 </div>
 
-<div class="hero" id="home">
+<div class="hero">
 <img src="Banner.jpg">
 </div>
 
-<div class="shop" id="shop"></div>
-
-<div class="admin" id="admin">
-
-<h2>Admin Panel</h2>
-
-<input id="itemName" placeholder="Item Name">
-<input id="itemPrice" placeholder="Price">
-
-<button onclick="addItem()">Add Item</button>
-
-</div>
+<img class="mascot" src="Logo.png">
 
 <!-- LOGIN -->
 
 <div class="popup" id="loginPopup">
 
 <div class="popup-box">
+
+<span class="close-btn" onclick="closePopup()">✕</span>
 
 <h3>Login</h3>
 
@@ -229,7 +271,9 @@ padding:50px;
 
 <div class="popup-box">
 
-<h3>Register</h3>
+<span class="close-btn" onclick="closePopup()">✕</span>
+
+<h3>Sign Up</h3>
 
 <input id="regUser" placeholder="Username">
 <input id="regPass" type="password" placeholder="Password">
@@ -242,139 +286,109 @@ padding:50px;
 
 <script>
 
-let users = JSON.parse(localStorage.getItem("users")) || []
-let products = JSON.parse(localStorage.getItem("products")) || [
-{name:"VIP Rank",price:50},
-{name:"Legend Rank",price:120}
-]
-
-let currentUser = localStorage.getItem("user")
-
-function save(){
-localStorage.setItem("users",JSON.stringify(users))
-localStorage.setItem("products",JSON.stringify(products))
-}
-
-function showHome(){
-document.getElementById("home").style.display="flex"
-document.getElementById("shop").style.display="none"
-}
-
-function showShop(){
-
-document.getElementById("home").style.display="none"
-document.getElementById("shop").style.display="grid"
-
-renderShop()
-}
-
-function renderShop(){
-
-let shop=document.getElementById("shop")
-shop.innerHTML=""
-
-products.forEach((p,i)=>{
-
-shop.innerHTML+=`
-
-<div class="item">
-
-<h3>${p.name}</h3>
-<p>${p.price} coins</p>
-
-<button onclick="buyItem(${i})">Buy</button>
-
-</div>
-
-`
-
-})
-
-}
-
-function buyItem(i){
-
-if(!currentUser){
-alert("Login first")
-return
-}
-
-alert("Purchased "+products[i].name)
-
-}
+/* popup */
 
 function openLogin(){
+
 document.getElementById("loginPopup").style.display="flex"
+
 }
 
 function openRegister(){
+
 document.getElementById("registerPopup").style.display="flex"
+
 }
+
+function closePopup(){
+
+document.getElementById("loginPopup").style.display="none"
+document.getElementById("registerPopup").style.display="none"
+
+}
+
+/* register */
 
 function register(){
 
-let u=document.getElementById("regUser").value
-let p=document.getElementById("regPass").value
+let user=document.getElementById("regUser").value
+let pass=document.getElementById("regPass").value
 
-users.push({u,p})
+if(user==""||pass==""){
 
-save()
+alert("กรอกข้อมูลก่อน")
 
-alert("Account created")
+return
 
 }
+
+localStorage.setItem(user,pass)
+
+localStorage.setItem(user+"_wallet",100)
+
+alert("สมัครสมาชิกสำเร็จ")
+
+closePopup()
+
+}
+
+/* login */
 
 function login(){
 
-let u=document.getElementById("loginUser").value
-let p=document.getElementById("loginPass").value
+let user=document.getElementById("loginUser").value
+let pass=document.getElementById("loginPass").value
 
-let user=users.find(x=>x.u==u && x.p==p)
+let saved=localStorage.getItem(user)
 
-if(user){
+if(saved==pass){
 
-currentUser=u
-localStorage.setItem("user",u)
+localStorage.setItem("loggedUser",user)
 
-updateUser()
+showUser()
+
+closePopup()
 
 }else{
 
-alert("Wrong login")
+alert("ข้อมูลไม่ถูกต้อง")
 
 }
 
 }
 
-function updateUser(){
+/* show user */
 
-if(currentUser){
+function showUser(){
 
-document.getElementById("userLabel").innerHTML="Hello "+currentUser
+let user=localStorage.getItem("loggedUser")
 
-if(currentUser=="admin"){
-document.getElementById("admin").style.display="block"
-}
+if(user){
 
-}
+document.getElementById("guestMenu").style.display="none"
+document.getElementById("userPanel").style.display="flex"
 
-}
+document.getElementById("username").innerText=user
 
-function addItem(){
+let money=localStorage.getItem(user+"_wallet")
 
-let name=document.getElementById("itemName").value
-let price=document.getElementById("itemPrice").value
-
-products.push({name,price})
-
-save()
-
-renderShop()
+document.getElementById("wallet").innerText=money
 
 }
 
-updateUser()
-renderShop()
+}
+
+/* logout */
+
+function logout(){
+
+localStorage.removeItem("loggedUser")
+
+location.reload()
+
+}
+
+showUser()
 
 </script>
 
